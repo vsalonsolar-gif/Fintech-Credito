@@ -24,7 +24,6 @@ make setup
 make run
 ```
 
-Visita [http://localhost:4000](http://localhost:4000) para ver la aplicacion.
 
 ### Usuarios de prueba (creados por seeds)
 | Email | Password | Rol |
