@@ -263,7 +263,7 @@ defmodule CreditSystemWeb.ApplicationLive.Show do
             <div class="flex items-center gap-4">
               <div class="avatar placeholder">
                 <div class="bg-primary/10 text-primary rounded-xl w-14">
-                  <span class="text-xl font-bold">{String.first(@application.full_name)}</span>
+                  <span class="text-xl font-bold text-center block">{@application.full_name |> String.slice(0, 2) |> String.upcase()}</span>
                 </div>
               </div>
 
