@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Language: es\n"
+
+msgid "close"
+msgstr "cerrar"
+
+msgid "Actions"
+msgstr "Acciones"
+
+msgid "Conexion perdida"
+msgstr "Conexion perdida"
+
+msgid "Intentando reconectar"
+msgstr "Intentando reconectar"
+
+msgid "Algo salio mal"
+msgstr "Algo salio mal"

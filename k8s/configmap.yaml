@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: credit-system-config
+  namespace: credit-system
+data:
+  DATABASE_URL: "ecto://postgres:password@postgres-service:5432/credit_system_prod"
+  SECRET_KEY_BASE: "change-me-in-production-use-mix-phx-gen-secret"
+  GUARDIAN_SECRET_KEY: "change-me-in-production"
+  PHX_HOST: "credit-system.example.com"
+  PORT: "4000"
+  POOL_SIZE: "20"
+  WEBHOOK_URL: "http://external-service:4001/webhook/receiver"
+  OBAN_QUEUES: "risk,5 webhooks,10 audit,3 notifications,5"

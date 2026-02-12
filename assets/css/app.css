@@ -1,0 +1,271 @@
+/* See the Tailwind configuration guide for advanced usage
+   https://tailwindcss.com/docs/configuration */
+
+@import "tailwindcss" source(none);
+@source "../css";
+@source "../js";
+@source "../../lib/credit_system_web";
+
+/* A Tailwind plugin that makes "hero-#{ICON}" classes available.
+   The heroicons installation itself is managed by your mix.exs */
+@plugin "../vendor/heroicons";
+
+/* daisyUI Tailwind Plugin. You can update this file by fetching the latest version with:
+   curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui.js
+   Make sure to look at the daisyUI changelog: https://daisyui.com/docs/changelog/ */
+@plugin "../vendor/daisyui" {
+  themes: false;
+}
+
+/* daisyUI theme plugin. You can update this file by fetching the latest version with:
+  curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
+  We ship with two themes, a light one inspired on Phoenix colors and a dark one inspired
+  on Elixir colors. Build your own at: https://daisyui.com/theme-generator/ */
+@plugin "../vendor/daisyui-theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: oklch(24% 0.02 260);
+  --color-base-200: oklch(20% 0.018 260);
+  --color-base-300: oklch(16% 0.015 260);
+  --color-base-content: oklch(97% 0.01 260);
+  --color-primary: oklch(65% 0.2 250);
+  --color-primary-content: oklch(98% 0.01 250);
+  --color-secondary: oklch(65% 0.15 290);
+  --color-secondary-content: oklch(98% 0.01 290);
+  --color-accent: oklch(70% 0.18 180);
+  --color-accent-content: oklch(98% 0.01 180);
+  --color-neutral: oklch(35% 0.03 260);
+  --color-neutral-content: oklch(98% 0 0);
+  --color-info: oklch(65% 0.18 240);
+  --color-info-content: oklch(97% 0.01 240);
+  --color-success: oklch(68% 0.16 155);
+  --color-success-content: oklch(98% 0.01 155);
+  --color-warning: oklch(75% 0.18 75);
+  --color-warning-content: oklch(25% 0.03 75);
+  --color-error: oklch(60% 0.22 25);
+  --color-error-content: oklch(97% 0.01 25);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "../vendor/daisyui-theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(99% 0.005 260);
+  --color-base-200: oklch(96% 0.008 260);
+  --color-base-300: oklch(92% 0.012 260);
+  --color-base-content: oklch(25% 0.015 260);
+  --color-primary: oklch(55% 0.22 260);
+  --color-primary-content: oklch(98% 0.01 260);
+  --color-secondary: oklch(55% 0.15 290);
+  --color-secondary-content: oklch(98% 0.01 290);
+  --color-accent: oklch(60% 0.18 180);
+  --color-accent-content: oklch(98% 0.01 180);
+  --color-neutral: oklch(40% 0.02 260);
+  --color-neutral-content: oklch(98% 0 0);
+  --color-info: oklch(55% 0.2 250);
+  --color-info-content: oklch(97% 0.01 250);
+  --color-success: oklch(58% 0.17 155);
+  --color-success-content: oklch(98% 0.01 155);
+  --color-warning: oklch(70% 0.18 75);
+  --color-warning-content: oklch(25% 0.03 75);
+  --color-error: oklch(55% 0.23 25);
+  --color-error-content: oklch(97% 0.01 25);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* Add variants based on LiveView classes */
+@custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);
+@custom-variant phx-submit-loading (.phx-submit-loading&, .phx-submit-loading &);
+@custom-variant phx-change-loading (.phx-change-loading&, .phx-change-loading &);
+
+/* Use the data attribute for dark mode  */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Make LiveView wrapper divs transparent for layout */
+[data-phx-session],
+[data-phx-teleported-src] {
+  display: contents;
+}
+
+/* ── Fintech Gradient Background ── */
+body {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 30%, #4338ca 60%, #6366f1 100%);
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+
+html {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 30%, #4338ca 60%, #6366f1 100%);
+  min-height: 100vh;
+}
+
+[data-theme="light"] body,
+[data-theme="light"] html {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 30%, #a5b4fc 60%, #818cf8 100%);
+}
+
+/* ── Card Enhancements ── */
+.card {
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Real-time pulse animation ── */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.animate-live-pulse {
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
+/* ── Subtle slide-in for new items ── */
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* ── Fade in animation ── */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out;
+}
+
+/* ── Stat counter animation ── */
+@keyframes count-up {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-count-up {
+  animation: count-up 0.5s ease-out;
+}
+
+/* ── Toast notification ── */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-100%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 0.3s ease-out;
+}
+
+/* ── Highlight flash for updated rows ── */
+@keyframes row-highlight {
+  0% { background-color: oklch(65% 0.18 250 / 0.15); }
+  100% { background-color: transparent; }
+}
+
+.animate-row-highlight {
+  animation: row-highlight 2s ease-out;
+}
+
+/* ── Mobile sidebar overlay ── */
+.sidebar-overlay {
+  transition: opacity 0.3s ease;
+}
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(50% 0 0 / 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(50% 0 0 / 0.5);
+}
+
+/* ── Status dot animation ── */
+@keyframes status-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.animate-status-blink {
+  animation: status-blink 1.5s ease-in-out infinite;
+}
+
+/* ── Progress bar smooth transition ── */
+.progress {
+  transition: width 0.5s ease;
+}
+
+/* ── Button loading state ── */
+.btn-loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* ── Country card hover effect ── */
+.country-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.country-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25);
+}
+
+.country-card:active {
+  transform: translateY(-2px);
+}

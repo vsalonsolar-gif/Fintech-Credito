@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: credit-system-web
+  namespace: credit-system
+  labels:
+    app: credit-system
+    component: web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: credit-system
+      component: web
+  template:
+    metadata:
+      labels:
+        app: credit-system
+        component: web
+    spec:
+      containers:
+        - name: credit-system
+          image: credit-system:latest
+          ports:
+            - containerPort: 4000
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: credit-system-config
+          env:
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: credit-system-secrets
+                  key: database-password
+            - name: GUARDIAN_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: credit-system-secrets
+                  key: guardian-secret-key
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: credit-system-secrets
+                  key: secret-key-base
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 4000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 4000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
+# Worker deployment for Oban job processing
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: credit-system-worker
+  namespace: credit-system
+  labels:
+    app: credit-system
+    component: worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: credit-system
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: credit-system
+        component: worker
+    spec:
+      containers:
+        - name: credit-system-worker
+          image: credit-system:latest
+          command: ["bin/credit_system", "start"]
+          envFrom:
+            - configMapRef:
+                name: credit-system-config
+          env:
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: credit-system-secrets
+                  key: database-password
+            - name: ENABLE_WEB_SERVER
+              value: "false"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
